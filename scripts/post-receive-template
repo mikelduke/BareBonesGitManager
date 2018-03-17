@@ -1,0 +1,5 @@
+#!/bin/bash
+
+unset $(git rev-parse --local-env-vars)
+cd $REPO
+git pull

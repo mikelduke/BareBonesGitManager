@@ -26,6 +26,7 @@ function createRepo() {
 
     $bare = ((isset ( $_POST ['bare'] ) && $_POST ['bare'] != "") ? 'Y' : 'N');
 		$httpClone = ((isset ( $_POST ['http-clone'] ) && $_POST ['http-clone'] != "") ? 'Y' : 'N');
+		$localClone = ((isset ( $_POST ['local-clone'] ) && $_POST ['local-clone'] != "") ? 'Y' : 'N');
 
     echo "Creating new repo: " . $repo . "<br />";
 
@@ -48,6 +49,15 @@ function createRepo() {
     echo "Init Repo Result:<br /><br />$htmlOutput <br />";
     echo "<hr />";
 
+		if ($localClone == 'Y') {
+			$cmd = 'scripts/git-clone.sh ' . $repoPath . ' ' . GitSettings::$_gitClonesPath . ' ' . $repo . ' 2>&1';
+			echo "Command: " . $cmd . "<hr />";
+			$output = shell_exec ( $cmd );
+			$htmlOutput = str_replace("\n", "\n<br />", $output);
+	    echo "Clone Repo Result:<br /><br />$htmlOutput <br />";
+	    echo "<hr />";
+		}
+
 	echo "Clone this Repo<br />";
 	echo "git clone " . GitSettings::$_gitClonePrefix . $repoPath . "<br />";
 	echo "<hr />";
@@ -60,15 +70,20 @@ function createRepo() {
 <title>Create New Repo</title>
 </head>
 <body>
+	<a href="index.php">Home</a><br />
+	<hr />
   <?php createRepo(); ?>
+	<h1>Create a New Repo</h1>
 	<form id="form" action="createRepo.php" method="post">
 		<div class="form-group">
 			<label for="repo-name">New Repo:</label> <input type="text"
 				class="form-control" name="repo-name" id="repo-name" maxLength="50" /><br />
       <input type="checkbox" name="bare" id="bare" checked="checked" />Bare<br />
 			<input type="checkbox" name="http-clone" id="http-clone" checked="checked" />Http Clone Support<br />
+			<input type="checkbox" name="local-clone" id="local-clone" checked="checked" />Local Clone<br />
 		</div>
 		<button type="submit" form="form" class="btn btn-default" id="btn_submit">Submit</button>
 	</form>
+	<br />
 </body>
 </html>
