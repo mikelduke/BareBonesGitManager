@@ -2,3 +2,5 @@
 .htpasswd
 
 gitManager-php/.settings
+repos/
+

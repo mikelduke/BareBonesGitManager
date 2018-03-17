@@ -20,7 +20,7 @@ $dir = new DirectoryIterator(GitSettings::$_gitRepoPath);
 foreach ($dir as $fileinfo) {
     if ($fileinfo->isDir() && !$fileinfo->isDot()) {
         echo '<li>'.$fileinfo->getFilename().'</li>';
-        
+
         $repoPath = GitSettings::$_gitRepoPath . '/' . $fileinfo->getFilename();
         echo "git clone " . GitSettings::$_gitClonePrefix . $repoPath . "<br />";
         echo "<br />";
